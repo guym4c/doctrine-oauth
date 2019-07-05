@@ -2,7 +2,8 @@
 
 namespace Guym4c\DoctrineOAuth\Provider;
 
-use Handler;
+use Guym4c\DoctrineOAuth\TypeHinter;
+use Guym4c\DoctrineOAuth\Handler;
 use League\OAuth2\Server\Middleware\ResourceServerMiddleware;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -11,7 +12,6 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Middleware\Session;
 use SlimSession;
-use TypeHinter;
 
 class Slim implements ServiceProviderInterface {
 

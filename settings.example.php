@@ -44,6 +44,11 @@ return [
             'key'       => $keys['mailgun'], // mailgun key
             'from'      => '', // mailgun from address
             'replyTo'   => '', // mailgun reply-to
+            'config'    => [
+                'address' => '',
+                'privacyUrl' => '',
+                'dataProtectionUrl' => '',
+            ],
         ],
     ],
 ];

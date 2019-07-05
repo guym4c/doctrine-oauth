@@ -1,0 +1,56 @@
+{% if _a is defined %}
+    {% set _get = _a|merge(_get) %}
+{% endif %}
+
+{% if _get.m is defined %}
+    <div class="alert alert--message">
+		<span class="alert__message">
+			<span class="alert__message__title">
+				<i class="fas fa-check"></i>
+			</span>
+			<span class="alert__message__text">{{ _get.m|escape }}</span>
+		</span>
+        <span class="alert__action">
+			{% if _get.u is defined %}
+                <a href="{{ _get.u|escape }}">
+					<i class="fas fa-undo"></i>
+					<span>Undo</span>
+				</a>
+            {% endif %}
+		</span>
+    </div>
+{% endif %}
+
+{% if _get.e is defined %}
+    <div class="alert alert--error">
+		<span class="alert__message">
+			<span class="alert__message__title">
+				<i class="fas fa-times"></i>
+			</span>
+			<span class="alert__message__text">
+				<span class="alert__message__text__prefix">Error: </span>
+				<span>{{ _get.e|escape }}</span>
+			</span>
+		</span>
+        <span class="alert__action"></span>
+    </div>
+{% endif %}
+
+{% if _get.w is defined %}
+    <div class="alert alert--warning">
+		<span class="alert__message">
+			<span class="alert__message__title">
+				<i class="fas fa-exclamation"></i>
+			</span>
+			<span class="alert__message__text">{{ _get.w|escape }}</span>
+		</span>
+        <span class="alert__action">
+			{% if _get.c is defined %}
+                <a href="{{ _get.c|escape }}">
+					<i class="fas fa-check-double"></i>
+					<span>Confirm</span>
+				</a>
+            {% endif %}
+		</span>
+    </div>
+{% endif %}

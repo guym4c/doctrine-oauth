@@ -1,0 +1,14 @@
+/vendor/
+/.idea/
+composer.lock
+keys.php
+settings.php
+/var/
+*.key
+
+*.css
+*.map
+/css/lib/
+/public/img/
+/lib/
+/config/

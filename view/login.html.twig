@@ -1,0 +1,26 @@
+{% extends '/oauth/oauth.html.twig' %}
+
+{% block head %}
+    <title>Log in</title>
+{% endblock %}
+
+{% block content %}
+    <div class="login">
+        <div class="message">
+            <p class="message__header">Log in</p>
+            <p class="message__body">Enter your credentials to continue</p>
+        </div>
+        <form class="form" method="post" action="/oauth/login">
+            <div class="form__group">
+                <span class="form__group__line">
+                    <input class="form__input form__input--fullWidth" name="user" placeholder="User" required autofocus>
+                </span>
+            </div>
+            <div class="form__group">
+                <span class="form__group__line">
+                    <input class="form__input form__input--attachRight form__input--grow" name="pass" type="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" required><input class="form__input form__input__submit form__input--attachLeft" type="submit" value="Log in">
+                </span>
+            </div>
+        </form>
+    </div>
+{% endblock %}

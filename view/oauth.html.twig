@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="{{ _lang }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+
+<div class="container">
+
+    <div class="container__content">
+        {% include '/alerts.html.twig' %}
+        <div class="container__content__center">
+            <div class="container__content__container">
+                <div class="container__content__container__logo">logo</div>
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    <div class="container__hero container__hero--hideMobile" style="background: url(https://placekitten.com/1000/1000) center/cover">
+        <div class="container__hero__wash"></div>
+    </div>
+</div>
+
+{% block scripts %}
+{% endblock %}
+</body>
+</html>

@@ -7,6 +7,7 @@ use Guym4c\DoctrineOAuth\Handler;
 use League\OAuth2\Server\Middleware\ResourceServerMiddleware;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Psr\Http\Message\ResponseInterface;
 use Slim\App;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -20,13 +21,13 @@ class Slim implements ServiceProviderInterface {
      */
     public function register(Container $c) {
 
-        $c['notFoundHandler'] = function (Container $c) {
+        $c['notFoundHandler'] = function (): callable {
             return function (Request $request, Response $response) {
                 return $response->withStatus(404);
             };
         };
 
-        $c['session'] = function (Container $c) {
+        $c['session'] = function (): SlimSession\Helper {
             return new SlimSession\Helper;
         };
 

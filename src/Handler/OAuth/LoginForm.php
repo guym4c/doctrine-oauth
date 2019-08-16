@@ -18,38 +18,41 @@ class LoginForm extends GenericOAuthHandler {
      */
     public function __invoke(Request $request, Response $response, array $args): ResponseInterface {
 
-        if ($this->session->exists(self::LOGIN_TOKEN_SESSION_KEY)) {
-            try {
-                list($user, $token) = explode(':',
-                    base64_decode($this->session->get(self::LOGIN_TOKEN_SESSION_KEY)));
-            } catch (Exception $e) {
-                return $this->displayLoginChallenge($request, $response);
-            }
-
-            /** @var User $user */
-            $user = $this->em->getRepository(User::class)->find($user);
-
-            if ($user->getRecentSecret() == $token) {
-                $this->session->set(self::USER_ID_SESSION_KEY, $user->getIdentifier());
-                return $response->withRedirect('/oauth/authorise/client');
-            } else {
-                return $this->displayLoginChallenge($request, $response);
-            }
+        $user = $this->parseLoginToken();
+        if (!empty($user)) {
+            $this->session->set(self::USER_ID_SESSION_KEY, $user->getIdentifier());
+            return $response->withRedirect('/oauth/authorise/client');
         }
 
         /** @var AuthorizationRequest $authRequest */
         $authRequest = $this->validateSession();
 
-        if ($authRequest == null) {
-            return $response->withRedirect('/oauth/invalid?e=' . self::NO_SESSION_ERROR_MSG);
+        if (empty($authRequest)) {
+            return $this->respondWithError($response, self::NO_SESSION_ERROR_MSG);
         }
 
-        return $this->displayLoginChallenge($request, $response);
-
+        return $this->render($request, $response, 'oauth/login.html.twig');
     }
 
-    private function displayLoginChallenge(Request $request, Response $response): ResponseInterface {
-        return $this->render($request, $response, 'oauth/login.html.twig');
+    private function parseLoginToken(): ?User {
 
+        if ($this->session->exists(self::LOGIN_TOKEN_SESSION_KEY)) {
+            try {
+                list($userId, $token) = explode(':',
+                    base64_decode($this->session->get(self::LOGIN_TOKEN_SESSION_KEY)));
+            } catch (Exception $e) {
+                return null;
+            }
+
+            /** @var User $user */
+            $user = $this->em->getRepository(User::class)
+                ->find($userId);
+
+            if ($user->getRecentSecret() == $token) {
+                return $user;
+            }
+        }
+
+        return null;
     }
 }

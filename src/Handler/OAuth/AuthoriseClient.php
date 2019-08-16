@@ -5,6 +5,7 @@ namespace Guym4c\DoctrineOAuth\Handler\OAuth;
 use Guym4c\DoctrineOAuth\Domain\Client;
 use Guym4c\DoctrineOAuth\Domain\User;
 use League\OAuth2\Server\RequestTypes\AuthorizationRequest;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -13,21 +14,21 @@ class AuthoriseClient extends GenericOAuthHandler {
     /**
      * {@inheritdoc}
      */
-    public function __invoke(Request $request, Response $response, array $args) {
+    public function __invoke(Request $request, Response $response, array $args): ResponseInterface {
 
         /** @var AuthorizationRequest $authRequest */
         $authRequest = $this->validateSession();
 
-        if ($authRequest == null) {
-            return $response->withRedirect('/oauth/invalid?e=' . self::NO_SESSION_ERROR_MSG);
+        if (empty($authRequest)) {
+            return $this->respondWithError($response, self::NO_SESSION_ERROR_MSG);
         }
 
         /** @var User $user */
         $user = $this->em->getRepository(User::class)
             ->find($this->session->get(self::USER_ID_SESSION_KEY));
 
-        if ($user == null) {
-            return $response->withRedirect('/oauth/invalid?e=' . self::REDIRECT_TO_LOGIN_MSG);
+        if (empty($user)) {
+            return $this->respondWithError($response, self::NO_SESSION_ERROR_MSG);
         }
 
         $authRequest->setUser($user);

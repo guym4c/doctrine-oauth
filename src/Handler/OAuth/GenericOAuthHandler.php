@@ -12,12 +12,12 @@ use Slim\Http\Response;
 
 abstract class GenericOAuthHandler extends GenericHandler {
 
-    const AUTH_REQUEST_SESSION_KEY = 'request';
-    const USER_ID_SESSION_KEY = 'user';
-    const LOGIN_TOKEN_SESSION_KEY = 'token';
-
-    const NO_SESSION_ERROR_MSG = 'No active session was found';
-    const REDIRECT_TO_LOGIN_MSG = 'You must be logged in to access that page';
+    protected const AUTH_REQUEST_SESSION_KEY = 'request';
+    protected const USER_ID_SESSION_KEY = 'user';
+    protected const LOGIN_TOKEN_SESSION_KEY = 'token';
+    private const ERROR_BASE_URI = '/oauth/invalid';
+    private const LOGIN_PAGE_URI = '/oauth/login';
+    protected const NO_SESSION_ERROR_MSG = 'No active session was found';
 
     protected $oauth;
 
@@ -65,5 +65,12 @@ abstract class GenericOAuthHandler extends GenericHandler {
         }
 
         return $authRequest;
+    }
+
+    protected function respondWithError(Response $response, string $message, bool $login = false): ResponseInterface {
+        $uri = $login
+            ? self::LOGIN_PAGE_URI
+            : self::ERROR_BASE_URI;
+        return $response->withRedirect("{$uri}?" . http_build_query(['e' => $message]));
     }
 }

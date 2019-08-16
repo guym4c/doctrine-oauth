@@ -3,6 +3,7 @@
 namespace Guym4c\DoctrineOAuth\Handler\OAuth;
 
 use League\OAuth2\Server\Exception\OAuthServerException;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -11,7 +12,7 @@ class Authorise extends GenericOAuthHandler {
     /**
      * {@inheritdoc}
      */
-    public function __invoke(Request $request, Response $response, array $args) {
+    public function __invoke(Request $request, Response $response, array $args): ResponseInterface {
         try {
             $authRequest = $this->oauth->validateAuthorizationRequest($request);
             $this->session->set(self::AUTH_REQUEST_SESSION_KEY, serialize($authRequest));

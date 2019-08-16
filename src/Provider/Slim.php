@@ -13,6 +13,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Middleware\Session;
 use SlimSession;
+use Teapot\StatusCode;
 
 class Slim implements ServiceProviderInterface {
 
@@ -22,8 +23,8 @@ class Slim implements ServiceProviderInterface {
     public function register(Container $c) {
 
         $c['notFoundHandler'] = function (): callable {
-            return function (Request $request, Response $response) {
-                return $response->withStatus(404);
+            return function (Request $request, Response $response): ResponseInterface {
+                return $response->withStatus(StatusCode::NOT_FOUND);
             };
         };
 
@@ -49,7 +50,7 @@ class Slim implements ServiceProviderInterface {
                 $app->post('/grant', Handler\OAuth\AccessToken::class);
 
             })->add(new Session([
-                'name'        => 'DrafterAuthSession',
+                'name'        => $c->settings['session']['cookie'],
                 'autorefresh' => true,
                 'lifetime'    => '1 hour'
             ]));

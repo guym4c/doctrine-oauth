@@ -49,6 +49,15 @@ class Slim implements ServiceProviderInterface {
                 $app->post('/login', Handler\OAuth\Login::class);
                 $app->post('/grant', Handler\OAuth\AccessToken::class);
 
+                $app->group('/tfa', function (App $app) {
+
+                    $app->get('', '');
+                    $app->get('/setup', '');
+                    $app->get('/setup/secret', '');
+
+                    $app->post('/setup/secret', '');
+                });
+
             })->add(new Session([
                 'name'        => $c->settings['session']['cookie'],
                 'autorefresh' => true,

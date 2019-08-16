@@ -53,6 +53,8 @@ return [
                 'dataProtectionUrl' => '',
             ],
         ],
-    ],
+        'tfa'      => [
+            'issuer' => '',
+        ],
     ],
 ];

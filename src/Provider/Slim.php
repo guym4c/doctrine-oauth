@@ -50,7 +50,7 @@ class Slim implements ServiceProviderInterface {
                 $app->post('/grant', Handler\OAuth\AccessToken::class);
 
             })->add(new Session([
-                'name'        => 'DrafterAuthSession',
+                'name'        => $c->settings['session']['cookie'],
                 'autorefresh' => true,
                 'lifetime'    => '1 hour'
             ]));

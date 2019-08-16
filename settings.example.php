@@ -10,6 +10,9 @@ return [
         'determineRouteBeforeAppMiddleware' => false,
         'addContentLengthHeader' => false,
 
+        'session' => [
+            'cookie' => ''
+        ],
         'doctrine' => [
             // if true, metadata caching is forcefully disabled
             'dev_mode' => true,
